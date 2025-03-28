@@ -1,0 +1,49 @@
+/* 🔵 Warna Background Halaman */
+.stApp {
+    background-color: #f0f2f6 !important;
+}
+
+/* 🔤 Gaya Font */
+html, body, .stMarkdown {
+    font-family: 'Arial', sans-serif !important;
+    font-size: 16px !important;
+    color: #333333 !important;
+}
+
+/* 🎨 Styling untuk Button */
+div.stButton > button {
+    background-color: #008CBA !important; /* Biru */
+    color: white !important;
+    border-radius: 8px !important;
+    font-size: 18px !important;
+    padding: 10px 20px !important;
+    border: none !important;
+    transition: 0.3s;
+}
+
+div.stButton > button:hover {
+    background-color: #005f73 !important;
+}
+
+/* 🔲 Styling untuk Form Input (Text Area, Text Input, File Uploader) */
+textarea, input[type="text"], .stTextArea, .stTextInput {
+    background-color: #ffffff !important;
+    color: #333333 !important;
+    font-size: 16px !important;
+    border-radius: 8px !important;
+    padding: 10px !important;
+    border: 2px solid #ccc !important;
+}
+
+/* 🖼️ Styling untuk File Uploader */
+div.stFileUploader {
+    background-color: #ffffff !important;
+    border: 2px dashed #008CBA !important;
+    padding: 10px !important;
+    border-radius: 8px !important;
+}
+
+/* 🎯 Ukuran Form Input (Misalnya Text Area Lebih Besar) */
+textarea {
+    height: 150px !important;
+}

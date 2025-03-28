@@ -1,0 +1,11 @@
+streamlit
+gunicorn
+requests
+urllib3
+python-docx
+PyMuPDF
+pdfplumber
+sympy
+fpdf
+rsa
+rabin_p
