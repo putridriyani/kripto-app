@@ -1,83 +1,39 @@
 import streamlit as st
-from fpdf import FPDF
-import hashlib
+from utils.signcryption_utils import decrypt_message, verify_signature
 from io import BytesIO
-import PyPDF2
 
-# 📌 Fungsi untuk verifikasi tanda tangan
-def verify_signature(message, signature, public_key, n):
-    """Memverifikasi tanda tangan digital dengan RSA Signature (angka besar)."""
-    hashed = int(hashlib.sha256(message.encode()).hexdigest(), 16)
-    verified_hash = pow(signature, public_key, n)  # Dekripsi tanda tangan
-    return hashed == verified_hash
+st.title("🔓 Dekripsi & Verifikasi PDF")
 
-# 📌 Fungsi untuk mendekripsi pesan dengan Rabin-P
-def decrypt_message(encrypted_message, p, q):
-    """Mendekripsi pesan dengan algoritma Rabin-P (angka besar)."""
-    n = p * q  # Modulus Rabin-P
-    decrypted_int = pow(encrypted_message, 2, n)  # Dekripsi dengan eksponen privat
-    decrypted_bytes = decrypted_int.to_bytes((decrypted_int.bit_length() + 7) // 8, byteorder='big')
-    return decrypted_bytes.decode(errors="ignore")  # Konversi kembali ke teks
+private_key_d = st.text_area("Masukkan Eksponen Privat (d):", "")
+public_key_n = st.text_area("Masukkan Modulus (n):", "")
+public_key_e = st.text_area("Masukkan Eksponen Publik (e):", "")
 
-# 📌 Fungsi untuk membaca data dari PDF terenkripsi
-def read_pdf(uploaded_file):
-    """Membaca tanda tangan dan pesan terenkripsi dari file PDF."""
-    try:
-        pdf_reader = PyPDF2.PdfReader(uploaded_file)
-        text = ""
-        for page in pdf_reader.pages:
-            text += page.extract_text() + "\n"
-        
-        # Ekstrak tanda tangan dan enkripsi dari teks PDF
-        lines = text.split("\n")
-        signature = int(lines[1].split(":")[1].strip())  # Ambil tanda tangan dari PDF
-        encrypted_message = int(lines[3].split(":")[1].strip())  # Ambil pesan terenkripsi
-        return signature, encrypted_message
-    except Exception as e:
-        st.error(f"❌ Terjadi kesalahan saat membaca PDF: {e}")
-        return None, None
-
-# 📌 UI Streamlit
-st.title("🔓✍️ Dekripsi & Verifikasi")
-
-uploaded_file = st.file_uploader("📂 Unggah file hasil enkripsi (PDF)", type=["pdf"])
-
-# Form Input Kunci RSA
-st.subheader("Masukkan Kunci Publik RSA:")
-n_rsa = st.text_area("Masukkan nilai **n** dari RSA:", height=100)
-public_key_rsa = st.text_area("Masukkan eksponen publik **e** dari RSA:", height=100)
-
-# Form Input Kunci Rabin-P
-st.subheader("Masukkan Kunci Privat Rabin-P:")
-p_rabin = st.text_area("Masukkan nilai **p** dari Rabin-P:", height=100)
-q_rabin = st.text_area("Masukkan nilai **q** dari Rabin-P:", height=100)
+signature_input = st.text_area("Masukkan Signature (Angka Besar):", "")
+uploaded_file = st.file_uploader("📂 Upload File PDF Terenkripsi", type=["pdf"])
 
 if st.button("🔓 Dekripsi & Verifikasi"):
-    if uploaded_file and n_rsa and public_key_rsa and p_rabin and q_rabin:
+    if private_key_d and public_key_n and public_key_e and signature_input and uploaded_file:
+        file_bytes = uploaded_file.read()
+
         try:
-            # 🔹 Konversi input ke angka besar
-            n_rsa = int(n_rsa.strip())
-            public_key_rsa = int(public_key_rsa.strip())
-            p_rabin = int(p_rabin.strip())
-            q_rabin = int(q_rabin.strip())
+            d, n, e = int(private_key_d), int(public_key_n), int(public_key_e)
+            signature = int(signature_input)
 
-            # 🔹 Baca tanda tangan & pesan terenkripsi dari PDF
-            signature, encrypted_message = read_pdf(uploaded_file)
+            decrypted_message = decrypt_message(int.from_bytes(file_bytes, byteorder='big'), d, n)
+            is_valid = verify_signature(decrypted_message, signature, e, n)
 
-            if signature is None or encrypted_message is None:
-                st.warning("⚠️ Gagal membaca file PDF!")
+            if is_valid:
+                st.success("✅ Tanda tangan valid! Pesan berhasil didekripsi.")
+
+                decrypted_pdf = BytesIO(decrypted_message)
+                decrypted_pdf.seek(0)
+
+                st.download_button("📥 Download File PDF Asli", data=decrypted_pdf, file_name="decrypted.pdf", mime="application/pdf")
             else:
-                # 🔹 Dekripsi pesan
-                decrypted_message = decrypt_message(encrypted_message, p_rabin, q_rabin)
+                st.error("❌ Tanda tangan tidak valid! Data mungkin telah diubah.")
 
-                # 🔹 Verifikasi tanda tangan
-                is_verified = verify_signature(decrypted_message, signature, public_key_rsa, n_rsa)
-
-                # 🔹 Tampilkan hasil
-                st.subheader("✅ Hasil:")
-                st.text_area("📜 Pesan Asli:", decrypted_message, height=200)
-                st.write(f"🔍 Hasil Verifikasi: {'✅ Valid' if is_verified else '❌ Tidak Valid'}")
         except ValueError:
-            st.error("❌ Pastikan semua kunci dalam format angka yang valid!")
+            st.error("⚠️ Pastikan input dalam bentuk angka yang valid!")
+
     else:
-        st.warning("⚠️ Mohon isi semua input dengan benar!")
+        st.warning("⚠️ Harap lengkapi semua input sebelum melanjutkan!")
