@@ -1,49 +1,174 @@
-/* 🔵 Warna Background Halaman */
-.stApp {
-    background-color: #f0f2f6 !important;
+/* ======= WARNA LATAR BELAKANG ======= */
+body {
+    background-color: #c43670 !important; 
+    color: #ffeffc !important; 
+    font-family: 'Courier New', Courier, monospace !important; 
 }
 
-/* 🔤 Gaya Font */
-html, body, .stMarkdown {
-    font-family: 'Arial', sans-serif !important;
-    font-size: 16px !important;
-    color: #333333 !important;
-}
-
-/* 🎨 Styling untuk Button */
+/* ======= KUSTOMISASI TOMBOL ======= */
 div.stButton > button {
-    background-color: #008CBA !important; /* Biru */
-    color: white !important;
-    border-radius: 8px !important;
-    font-size: 18px !important;
-    padding: 10px 20px !important;
-    border: none !important;
+    background-color: #c43670; 
+    color: #dddddd !important;
+    border-radius: 5px;
+    border: none;
+    padding: 10px 20px;
+    font-family: 'Courier New', Courier, monospace !important;
+    font-size: 16px;
     transition: 0.3s;
 }
 
-div.stButton > button:hover {
-    background-color: #005f73 !important;
+
+/* ======= KUSTOMISASI INPUT TEKS ======= */
+input, textarea {
+    background-color: #fbf4eb !important;  
+    color: #c43670  !important;  
+    border: 2px solid #c43670  !important;  
+    border-radius: 5px;
+    padding: 10px;
 }
 
-/* 🔲 Styling untuk Form Input (Text Area, Text Input, File Uploader) */
-textarea, input[type="text"], .stTextArea, .stTextInput {
-    background-color: #ffffff !important;
-    color: #333333 !important;
+
+/* Mengubah border saat input aktif (klik) */
+input:focus, textarea:focus {
+    border-color: #c43670 !important;  /* Warna pink lebih gelap saat fokus */
+    box-shadow: 0px 0px 5px #c43670!important;  /* Efek glow */
+}
+
+
+/* Mengubah warna placeholder */
+input::placeholder, textarea::placeholder {
+    color: #c43670  !important;  /* Pink lebih gelap */
+    opacity: 1;
+}
+
+/* Ubah warna background upload file */
+div[data-testid="stFileUploader"] {
+    background-color: #ffe4e1 !important;  /* Pink muda */
+    border: 2px solid #ff69b4 !important;  /* Border pink */
+    border-radius: 8px;  /* Membuat sudut lebih membulat */
+    color: #000 !important;  /* Warna teks hitam */
+}
+
+/* Ubah warna teks "Drag and drop file here" */
+div[data-testid="stFileUploader"] div {
+    color: #d14786 !important;  /* Pink lebih gelap */
+}
+
+/* Ubah warna tombol "Browse files" */
+div[data-testid="stFileUploader"] button {
+    background-color: #c43670 !important;  
+    color: white !important; 
+    border-radius: 5px;
+}
+
+/* Ubah warna tombol "Browse files" saat hover */
+div[data-testid="stFileUploader"] button:hover {
+    background-color: #d14786 !important;  /* Pink lebih gelap */
+}
+
+
+/* ======= KUSTOMISASI TITLE ======= */
+h1, h2, h3, h3, h4, h5, h6{
+    color: #c43670 !important; 
+    font-family: 'Courier New', Courier, monospace !important;
+}
+
+p{
+    font-family: 'Courier New', Courier, monospace !important;
+    color:#fbf4eb;
+}
+
+h1 {
+    font-weight: bold;
+}
+
+/* ======= KUSTOMISASI TABEL ======= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* ======= KUSTOMISASI SIDEBAR ======= */
+.stSidebar {
+    font-family: 'Courier New', Courier, monospace !important;
+    background-color: #c43670 !important; /* Warna sidebar */
+}
+
+/* Mengubah font pada semua teks input */
+input, textarea, select {
+    font-family: 'Courier New', Courier, monospace!important;
+    color: #c43670;
+}
+
+/* Mengubah font di tombol */
+.stButton>button {
+    font-family: 'Courier New', Courier, monospace!important;
     font-size: 16px !important;
+    background-color: #c43670 !important;
+    color: white !important;
     border-radius: 8px !important;
-    padding: 10px !important;
-    border: 2px solid #ccc !important;
+    padding: 10px 20px !important;
 }
 
-/* 🖼️ Styling untuk File Uploader */
-div.stFileUploader {
-    background-color: #ffffff !important;
-    border: 2px dashed #008CBA !important;
-    padding: 10px !important;
-    border-radius: 8px !important;
+/* Ubah semua tombol Streamlit menjadi font Courier */
+button {
+    font-family: 'Courier New', Courier, monospace !important;
+    font-size: 16px !important;
+    background-color: #c43670 !important;
+    color: white !important;
+    padding: 10px 20px !important;
+    border: none !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
 }
 
-/* 🎯 Ukuran Form Input (Misalnya Text Area Lebih Besar) */
-textarea {
-    height: 150px !important;
+
+.stitle, .stButton, st.text_area{
+    font-family: 'Courier New', Courier, monospace;
+    color: #c43670;
+}
+
+label {
+    font-family: 'Courier New', Courier, monospace, sans-serif;
+    font-size: 16px;
+    color: #c43670;
+}
+
+.stDownloadButton > button { 
+    font-family: 'Courier New', Courier, monospace !important; }
+
+/* Ubah tampilan teks dalam st.text() */
+div[data-testid="stText"] {
+    font-family: 'Courier New', Courier, monospace !important;
+    font-size: 16px !important;
+    color: #c43670 !important;
+}
+
+.stApp{
+    background-color: #fbd9e5 !important; /* Ubah ke putih */   
+}
+
+.stAppHeader{
+    background-color: #fbd9e5;
+}
+.stNumberInput{
+    background-color: #fbd9e5;
+}
+.st-emotion-cache-9gx57n{
+    background-color: #fbd9e5;
+}
+
+/* Warna teks putih untuk tombol download */
+div[data-testid="stDownloadButton"] button {
+    color: white !important;
 }
